@@ -384,6 +384,36 @@ module.exports = (env) ->
       super()
 
     getGas: -> Promise.resolve @_gas
+    
+      class MySensors18b20 extends env.devices.TemperatureSensor
+
+     constructor: (@config,lastState, @board) ->
+      @id = config.id
+      @name = config.name
+      env.logger.info "MySensors18b20 " , @id , @name
+
+       @attributes = {}
+
+      @attributes.temperature = {
+        description: "the messured temperature"
+        type: "number"
+        unit: '°C'
+      }
+      @board.on("rfValue", (result) =>
+        if result.sender is @config.nodeid
+          for sensorid in @config.sensorid
+            if result.sensor is sensorid
+              env.logger.info "<- MySensor18b20 " , result
+              if result.type is V_TEMP
+                #env.logger.info  "temp" , result.value
+                @_temperatue = parseFloat(result.value)
+                @emit "temperature", @_temperatue
+      )
+      super()
+
+ 
+
+    getTemperature: -> Promise.resolve @_temperatue
   # ###Finally
   # Create a instance of my plugin
   mySensors = new MySensors
