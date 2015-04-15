@@ -135,6 +135,10 @@ module.exports = {
         type: "number"
       sensorid:
         description: "This is the child-sensor-id that uniquely identifies one attached sensor"
-        type: "number"
+        type: "array"
+        default: []
+        format: "table"
+        items:
+          type: "number"
     } 
 }   
