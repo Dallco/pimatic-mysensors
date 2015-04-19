@@ -67,6 +67,8 @@ module.exports = (env) ->
         MySensorsLight
         MySensorsGas
         MySensorBattery
+        MySensorsTemp
+        MySensorsDistance
       ]
 
       for Cl in deviceClasses
@@ -385,12 +387,12 @@ module.exports = (env) ->
 
     getGas: -> Promise.resolve @_gas
     
-class MySensors18b20 extends env.devices.TemperatureSensor
+  class MySensorsTemp extends env.devices.TemperatureSensor
 
     constructor: (@config,lastState, @board) ->
       @id = config.id
-      @name = config.name
-      env.logger.info "MySensors18b20 " , @id , @name
+      @name = config.name 
+      env.logger.info "MySensorsTemp " , @id , @name 
       @attributes = {}
 
       @attributes.temperature = {
@@ -400,20 +402,42 @@ class MySensors18b20 extends env.devices.TemperatureSensor
       }
 
       @board.on("rfValue", (result) =>
-        if result.sender is @config.nodeid
-          for sensorid in @config.sensorid
-            if result.sensor is sensorid
-              env.logger.info "<- MySensor18b20 " , result
+          if result.sender is @config.nodeid
+            if result.sensor is  @config.sensorid
+              env.logger.info "<- MySensorTemp " , result
               if result.type is V_TEMP
-                #env.logger.info  "temp" , result.value
-                @_temperature = parseFloat(result.value)
-                @emit "temperature", @_temperature
+                @_temperatue = parseFloat(result.value)
+                @emit "temperature", @_temperatue
       )
       super()
 
- 
+    getTemperature: -> Promise.resolve @_temperatue
 
-    getTemperature: -> Promise.resolve @_temperature
+  class MySensorsDistance extends env.devices.Device
+
+    constructor: (@config,lastState, @board) ->
+      @id = config.id
+      @name = config.name
+      env.logger.info "MySensorsDistance " , @id , @name
+      @attributes = {}
+
+      @attributes.Distance = {
+        description: "the messured distance in cm"
+        type: "number"
+        unit: 'cm'
+      }
+
+      @board.on("rfValue", (result) =>
+        if result.sender is @config.nodeid
+          if result.sensor is  @config.sensorid
+            env.logger.info "<- MySensorsDistance" , result
+            if result.type is V_DISTANCE
+              @_Distance = parseInt(result.value)
+              @emit "Distance", @_Distance
+      )
+      super()
+
+    getDistance: -> Promise.resolve @_Distance
   # ###Finally
   # Create a instance of my plugin
   mySensors = new MySensors

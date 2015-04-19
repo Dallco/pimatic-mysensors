@@ -20,6 +20,7 @@ Controllers
   * Light Sensor 
   * Gas Sensor ( ppm )
   * PulseMeter ( experimental only support wattage )
+  * MySensors18b20
   * more to be add.. :)
 
 Gateways
@@ -159,3 +160,17 @@ This is the basic sensor with only temperature and humidity
   }
   
 ```  
+*  Temp Sensor ( C )
+```
+  {
+      "id": "TempSensor,
+      "name": "TemperatureSensor",
+      "class": "MySensorTemp",
+      "nodeid": 25,
+      "sensorid": [
+        0,
+        1,
+	2
+      ]
+  }
+

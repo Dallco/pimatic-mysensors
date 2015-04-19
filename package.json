@@ -19,7 +19,7 @@
   "homepage": "http://pimatic.org",
   "repository": {
     "type": "git",
-    "url": "git://github.com/DheerajKhajuria/pimatic-MySensors.git"
+    "url": "git://github.com/Dallco/pimatic-MySensors.git"
   },
   "configSchema": "MySensors-config-schema.coffee",
   "icon": "icon.svg",

@@ -125,8 +125,8 @@ module.exports = {
         description: "This is the child-sensor-id that uniquely identifies one attached sensor"
         type: "number"
     } 
-      MySensors18b20:  {
-    title: "MySensors18b20 config options"
+  MySensorsTemp: {
+    title: "MySensorsTemp config options"
     type: "object"
     extensions: ["xLink"]
     properties:
@@ -135,10 +135,18 @@ module.exports = {
         type: "number"
       sensorid:
         description: "This is the child-sensor-id that uniquely identifies one attached sensor"
-        type: "array"
-        default: []
-        format: "table"
-        items:
-          type: "number"
-    } 
+        type: "number"
+    }  ,
+  MySensorsDistance: {
+    title: "MySensorsDistance config options"
+    type: "object"
+    extensions: ["xLink"]
+    properties:
+      nodeid:
+        description: "The unique id of the node that sends or should receive the message"
+        type: "number"
+      sensorid:
+        description: "This is the child-sensor-id that uniquely identifies one attached sensor"
+        type: "number"
+    }  
 }   
