@@ -124,7 +124,19 @@ module.exports = {
          type: "boolean"
          default: no  
     },
-
+  MySensorsBattery: {
+   title: "MySensorsBattery config options"
+   type: "object"
+   extensions: ["xLink"]
+   properties:
+      nodeid:
+        description: "The unique id of the node that sends or should receive the message"
+        type: "array"
+        default: []
+        format: "table"
+        items:
+          type: "number"
+    },
   MySensorsGas:  {
     title: "MySensorsGas config options"
     type: "object"

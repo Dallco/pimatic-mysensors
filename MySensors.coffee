@@ -66,7 +66,7 @@ module.exports = (env) ->
         MySensorsButton
         MySensorsLight
         MySensorsGas
-        MySensorBattery
+        MySensorsBattery
         MySensorsTemp
         MySensorsDistance
 
@@ -503,12 +503,12 @@ module.exports = (env) ->
     getTemperature: -> Promise.resolve @_temperatue
     getBattery: -> Promise.resolve @_batterystat
 
+  
   class MySensorsDistance extends env.devices.Device
 
-
-  
-  class MySensorsBattery extends env.devices.Device
-
+    constructor: (@config,lastState, @board) ->
+      @id = config.id
+      @name = config.name
       env.logger.info "MySensorsDistance " , @id , @name
       @attributes = {}
 
@@ -546,6 +546,34 @@ module.exports = (env) ->
     getDistance: -> Promise.resolve @_Distance
     getBattery: -> Promise.resolve @_batterystat
 
+
+
+  class MySensorsBattery extends env.devices.Device
+
+    constructor: (@config,lastState, @board) ->
+      @id = config.id
+      @name = config.name
+      env.logger.info "MySensorsBattery" , @id , @name
+
+      @attributes = {}
+
+      for nodeid in @config.nodeid
+        do (nodeid) =>
+          attr = "battery_" + nodeid
+          @attributes[attr] = {
+            description: "the measured Battery Stat of Sensor"
+            type: "number"
+            unit: '%'
+          }
+          getter = ( =>  Promise.resolve @_batterystat )
+          @_createGetter( attr, getter)
+
+      @board.on("rfbattery", (result) =>
+         unless result.value is null or undefined
+          @_batterystat =  parseInt(result.value)
+          @emit "battery_" + result.sender, @_batterystat
+      )
+      super()
 
   # ###Finally
   # Create a instance of my plugin
