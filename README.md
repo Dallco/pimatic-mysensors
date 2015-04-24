@@ -16,11 +16,11 @@ Controllers
   * Relay-Actuator ( http://www.mysensors.org/build/relay )
   * TimeAware Sensor support ( Unix time seconds ) 
   * Binary buttom ( http://www.mysensors.org/build/binary )
-  * Battery level stats of sensors
   * Light Sensor 
   * Gas Sensor ( ppm )
   * PulseMeter ( experimental only support wattage )
-  * MySensors18b20
+  * MySensors Temperatuur
+  * Battery level  of multiple sensors
   * more to be add.. :)
 
 Gateways
@@ -54,6 +54,9 @@ in the plugins section.
 
 ### Devices
 
+ Note:  To enable battery level with  sensor. set ["batterystat"] to true. see temp & Hum exp.
+        support is enable for all sensor except PIR,Switch. for PIR or switch use configure seperate battery devices.
+
 * Temperature and Humidity
 
 Devices must be added manually to the device section of your pimatic config.
@@ -65,6 +68,7 @@ This is the basic sensor with only temperature and humidity
       "name": "DHT11",
       "class": "MySensorsDHT",
       "nodeid": 10,
+      "batterySensor": true,
       "sensorid": [
         0,
         1
@@ -124,12 +128,12 @@ This is the basic sensor with only temperature and humidity
 
   
 ```
-*  Battery Stat
+*  Battery levels
 ```
   {
       "id": "Battery",
-      "name": "BatteryStat",
-      "class": "MySensorBattery",
+      "name": "Batterylevel",
+      "class": "MySensorsBattery",
       "nodeid": [
       11,
       12,
@@ -143,7 +147,7 @@ This is the basic sensor with only temperature and humidity
   {
       "id": "Light",
       "name": "Light",
-      "class": "MySensorLight",
+      "class": "MySensorsLight",
       "nodeid": 15,
       "sensorid": 2
   }
@@ -154,7 +158,7 @@ This is the basic sensor with only temperature and humidity
   {
       "id": "GasSensor,
       "name": "GasSensor",
-      "class": "MySensorGas",
+      "class": "MySensorsGas",
       "nodeid": 14,
       "sensorid": 3
   }
@@ -173,4 +177,5 @@ This is the basic sensor with only temperature and humidity
 	2
       ]
   }
+
 
