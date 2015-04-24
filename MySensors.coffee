@@ -69,6 +69,8 @@ module.exports = (env) ->
         MySensorBattery
         MySensorsTemp
         MySensorsDistance
+
+
       ]
 
       for Cl in deviceClasses
@@ -458,6 +460,7 @@ module.exports = (env) ->
 
     getGas: -> Promise.resolve @_gas    
     getBattery: -> Promise.resolve @_batterystat
+
     
   class MySensorsTemp extends env.devices.TemperatureSensor
 
