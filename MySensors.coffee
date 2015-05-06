@@ -379,7 +379,7 @@ module.exports = (env) ->
     constructor: (@config,lastState, @board) ->
       @id = config.id
       @name = config.name
-      env.logger.info "MySensorsLight " , @id , @name
+# #   env.logger.info "MySensorsLight " , @id , @name
       @attributes = {}
 
       
@@ -407,7 +407,7 @@ module.exports = (env) ->
       @board.on("rfValue", (result) =>
         if result.sender is @config.nodeid
           if result.sensor is  @config.sensorid
-            env.logger.info "<- MySensorsLight" , result
+# #         env.logger.info "<- MySensorsLight" , result
             if result.type is V_LIGHT_LEVEL
               @_light = parseInt(result.value)
               @emit "light", @_light
@@ -466,23 +466,9 @@ module.exports = (env) ->
 
     constructor: (@config,lastState, @board) ->
       @id = config.id
-      @name = config.name 
-      env.logger.info "MySensorsTemp " , @id , @name 
+      @name = config.name
+# #   env.logger.info "MySensorsTemp " , @id , @name 
       @attributes = {}
-
-      @attributes.battery = {
-        description: "display the Battery level of Sensor"
-        type: "number"
-        unit: '%'
-        hidden: !@config.batterySensor
-       }
-        
-      @board.on("rfbattery", (result) =>
-         if result.sender is @config.nodeid
-          unless result.value is null or undefined
-            @_batterystat =  parseInt(result.value)
-            @emit "battery" , @_batterystat
-      )
 
       @attributes.temperature = {
         description: "the messured temperature"
@@ -493,7 +479,7 @@ module.exports = (env) ->
       @board.on("rfValue", (result) =>
           if result.sender is @config.nodeid
             if result.sensor is  @config.sensorid
-              env.logger.info "<- MySensorTemp " , result
+# #           env.logger.info "<- MySensorTemp " , result
               if result.type is V_TEMP
                 @_temperatue = parseFloat(result.value)
                 @emit "temperature", @_temperatue
@@ -501,7 +487,6 @@ module.exports = (env) ->
       super()
 
     getTemperature: -> Promise.resolve @_temperatue
-    getBattery: -> Promise.resolve @_batterystat
 
   
   class MySensorsDistance extends env.devices.Device
@@ -509,7 +494,7 @@ module.exports = (env) ->
     constructor: (@config,lastState, @board) ->
       @id = config.id
       @name = config.name
-      env.logger.info "MySensorsDistance " , @id , @name
+# #   env.logger.info "MySensorsDistance " , @id , @name
       @attributes = {}
 
 
@@ -528,15 +513,15 @@ module.exports = (env) ->
       )
 
       @attributes.Distance = {
-        description: "the messured distance in cm"
+        description: "the messured distance in mm"
         type: "number"
-        unit: 'cm'
+        unit: 'mm'
       }
 
       @board.on("rfValue", (result) =>
         if result.sender is @config.nodeid
           if result.sensor is  @config.sensorid
-            env.logger.info "<- MySensorsDistance" , result
+# #         env.logger.info "<- MySensorsDistance" , result
             if result.type is V_DISTANCE
               @_Distance = parseInt(result.value)
               @emit "Distance", @_Distance
